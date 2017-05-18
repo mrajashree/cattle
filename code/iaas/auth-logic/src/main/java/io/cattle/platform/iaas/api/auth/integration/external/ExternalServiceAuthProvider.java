@@ -209,6 +209,7 @@ public class ExternalServiceAuthProvider {
         //check if the setting 'support.identity.lookup = false', if yes then lookup the identity from token
 
         if(ServiceAuthConstants.NO_IDENTITY_LOOKUP_SUPPORTED.get()) {
+            System.out.println("\nhere\n");
             log.debug("Identity lookup is not supported at the provider");
             if (tokenUtil.findAndSetJWT()) {
                 Set<Identity> identitiesInToken = tokenUtil.getIdentities();
