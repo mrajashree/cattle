@@ -80,7 +80,9 @@ public class ExternalServiceAuthProvider {
                         "Error Response from Auth service", "Status code from Auth Service: " + Integer.toString(statusCode));
             }
             Map<String, Object> jsonData = jsonMapper.readValue(response.getEntity().getContent());
-
+            System.out.println("\nIn ExternalServiceAuthProvider.getToken\n");
+            System.out.println("\njsonData\n");
+            System.out.println(jsonData);
             String encryptedToken = (String)jsonData.get(ServiceAuthConstants.JWT_KEY);
             Map<String, Object> decryptedToken = tokenService.getJsonPayload(encryptedToken, false);
             String accessToken = (String)decryptedToken.get("access_token");

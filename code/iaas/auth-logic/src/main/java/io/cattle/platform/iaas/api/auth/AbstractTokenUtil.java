@@ -289,8 +289,11 @@ public abstract class AbstractTokenUtil implements TokenUtil {
 
     @Override
     public Account getOrCreateAccount(Identity user, Set<Identity> identities, Account account) {
+        System.out.println("\nIn AbstractTokenUtil.getOrCreateAccount\n");
         if (SecurityConstants.SECURITY.get()) {
+            System.out.println("\nHERE1\n");
             isAllowed(identitiesToIdList(identities), identities);
+            System.out.println(identitiesToIdList(identities));
             if (account == null) {
                 account = authDao.getAccountByExternalId(user.getExternalId(), user.getExternalIdType());
             }
@@ -308,6 +311,7 @@ public abstract class AbstractTokenUtil implements TokenUtil {
                 projectResourceManager.createProjectForUser(user);
             }
         } else {
+            System.out.println("\nHERE2\n");
             if (account == null) {
                 account = authDao.getAccountByExternalId(user.getExternalId(), user.getExternalIdType());
             }
@@ -332,13 +336,17 @@ public abstract class AbstractTokenUtil implements TokenUtil {
     public Token createToken(Set<Identity> identities, Account account) {
 
         Identity user = getUser(identities);
-
+        System.out.println("\nIn AbstractTokenUtil.createToken\n");
+        System.out.println(identities);
+        System.out.println("\nCP 1\n");
+        System.out.println(user);
         if (user == null) {
             throw new ClientVisibleException(ResponseCodes.UNAUTHORIZED);
         }
 
+        System.out.println("\nCP 2\n");
         account = getOrCreateAccount(user, identities, account);
-
+        System.out.println(account);
         if (account == null){
             throw new ClientVisibleException(ResponseCodes.INTERNAL_SERVER_ERROR, "FailedToGetAccount");
         }
