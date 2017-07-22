@@ -63,6 +63,7 @@ public class AuthServiceLauncher extends GenericServiceLauncher implements Initi
     public static final DynamicStringProperty EXTERNAL_AUTH_PROVIDER_SETTING = ArchaiusUtil.getString("api.auth.external.provider.configured");
     public static final DynamicStringProperty NO_IDENTITY_LOOKUP_SETTING = ArchaiusUtil.getString("api.auth.external.provider.no.identity.lookup");
     private static final DynamicStringProperty AUTH_SERVICE_LOG_LEVEL = ArchaiusUtil.getString("auth.service.log.level");
+    private static final DynamicStringProperty AUTH_SERVICE_UPDATE_TIMESTAMP = ArchaiusUtil.getString("auth.service.update.timestamp");
 
     @Override
     protected boolean shouldRun() {
@@ -154,24 +155,9 @@ public class AuthServiceLauncher extends GenericServiceLauncher implements Initi
     @Override
     protected List<DynamicStringProperty> getReloadSettings() {
         List<DynamicStringProperty> list = new ArrayList<DynamicStringProperty>();
-        list.add(SecurityConstants.AUTH_PROVIDER);
         list.add(SecurityConstants.AUTH_ENABLER_SETTING);
-        list.add(SECURITY_SETTING);
-        list.add(ServiceAuthConstants.ACCESS_MODE);
-        list.add(ServiceAuthConstants.ALLOWED_IDENTITIES);
-        list.add(EXTERNAL_AUTH_PROVIDER_SETTING);
-        list.add(NO_IDENTITY_LOOKUP_SETTING);
-        list.add(ServiceAuthConstants.USER_TYPE);
-        list.add(ServiceAuthConstants.IDENTITY_SEPARATOR);
         list.add(AUTH_SERVICE_LOG_LEVEL);
-
-        //read Db settings name starting with "api.auth" to add additional provider specific settings
-        List<Setting> settings = objectManager.find(Setting.class,
-                SETTING.NAME, new Condition(ConditionType.LIKE, "api.auth%"));
-
-        for (Setting setting : settings) {
-            list.add(DynamicPropertyFactory.getInstance().getStringProperty(setting.getName(), null));
-        }
+        list.add(AUTH_SERVICE_UPDATE_TIMESTAMP);
 
         return list;
     }

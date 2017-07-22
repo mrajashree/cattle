@@ -102,7 +102,10 @@ public class TokenResourceManager extends AbstractNoOpResourceManager {
             }
         } else {
             //call external service
-            token = externalAuthProvider.getToken(request);
+            // ADD check for is Configured
+            if(externalAuthProvider.isConfigured()) {
+                token = externalAuthProvider.getToken(request);
+            }
         }
 
         if (token == null){
