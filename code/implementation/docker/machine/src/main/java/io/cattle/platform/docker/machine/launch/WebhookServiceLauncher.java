@@ -11,7 +11,9 @@ import io.cattle.platform.token.impl.RSAKeyProvider;
 import io.cattle.platform.token.impl.RSAPrivateKeyHolder;
 import io.cattle.platform.util.type.InitializationTask;
 
+import java.io.IOException;
 import java.security.PublicKey;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -58,6 +60,13 @@ public class WebhookServiceLauncher extends GenericServiceLauncher implements In
         }
         env.put("RSA_PRIVATE_KEY_CONTENTS", privateKey);
 
+    }
+
+    @Override
+    protected void prepareProcess(ProcessBuilder pb) throws IOException {
+        List<String> args = pb.command();
+        args.add("--kubeconfig");
+        args.add("kubeconfig");
     }
 
     public String getPublicKey() {
